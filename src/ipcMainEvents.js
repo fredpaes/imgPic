@@ -5,7 +5,7 @@ import path from 'path';
 import fileSize from 'filesize';
 
 function setMainPc(win) {
-    ipcMain.on('open-directory', (event, arg) => {
+    ipcMain.on('open-directory', (event) => {
         dialog.showOpenDialog(win, {
             title: 'Seleccione la nueva ubicación',
             buttonLabel: 'Abrir ubicación',
@@ -13,26 +13,11 @@ function setMainPc(win) {
         }).then((dir) => {
             if (dir.canceled) return;
 
-            let directoryChoosed = dir.filePaths[0];
-            fs.readdir(directoryChoosed, (err, files) => {
-                if (err) throw err;
-
-                let images = files
-                    .filter(file => isImage(file))
-                    .map(img => {
-                        let pathFile = path.join(directoryChoosed, img);
-                        let statsFile = fs.statSync(pathFile);
-                        return {
-                            name: img,
-                            src: `file://${pathFile}`,
-                            size: fileSize(statsFile.size, { round: 0 })
-                        }
-                    });
-
-                event.sender.send('load-images', images);
-            });
+            loadImages(event, dir.filePaths[0]);
         });
     });
+
+    ipcMain.on('load-default-images', (event, dir) => loadImages(event, dir));
 
     ipcMain.on('save-save-dialog', (event, ext) => {
         dialog.showSaveDialog(win, {
@@ -54,6 +39,26 @@ function setMainPc(win) {
             title: info.title,
             message: info.msg
         });
+    });
+}
+
+function loadImages(event, dir) {
+    fs.readdir(dir, (err, files) => {
+        if (err) throw err;
+
+        let images = files
+            .filter(file => isImage(file))
+            .map(img => {
+                let pathFile = path.join(dir, img);
+                let statsFile = fs.statSync(pathFile);
+                return {
+                    name: img,
+                    src: `file://${pathFile}`,
+                    size: fileSize(statsFile.size, { round: 0 })
+                }
+            });
+
+        event.sender.send('load-images', dir, images);
     });
 }
 

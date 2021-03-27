@@ -5,7 +5,7 @@ import devtools from './devtools';
 import handleErrors from './handle-errors';
 import setMainPc from './ipcMainEvents';
 
-let win;
+global.win;
 
 if (process.env.NODE_ENV == 'development') {
     devtools();
@@ -16,7 +16,7 @@ app.on('before-quit', () => {
 });
 
 app.on('ready', () => {
-    win = new BrowserWindow({
+    global.win = new BrowserWindow({
         width: 840,
         height: 600,
         title: 'Hola mundo',
@@ -28,19 +28,19 @@ app.on('ready', () => {
         },
     });
 
-    setMainPc(win);
-    handleErrors(win);
+    setMainPc(global.win);
+    handleErrors(global.win);
 
-    win.once('ready-to-show', () => {
-        win.show()
+    global.win.once('ready-to-show', () => {
+        global.win.show()
     });
 
-    win.on('closed', () => {
-        win = null;
+    global.win.on('closed', () => {
+        global.win = null;
         app.quit();
     });
 
-    // win.loadURL('https://devdocs.io/');
-    win.loadURL(`file://${__dirname}/renderer/index.html`);
-    // win.toggleDevTools();
+    // global.win.loadURL('https://devdocs.io/');
+    global.win.loadURL(`file://${__dirname}/renderer/index.html`);
+    // global.win.toggleDevTools();
 });
