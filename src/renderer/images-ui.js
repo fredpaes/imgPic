@@ -1,6 +1,6 @@
 import url from 'url';
 import path from 'path';
-import applyFilter from './filters';
+import { applyFilter } from './filters';
 
 function addImagesEvent() {
     const thumbs = document.querySelectorAll('li.list-group-item');
@@ -19,7 +19,10 @@ function changeImage(nodo) {
     }
     if (nodo) {
         nodo.classList.add('selected');
-        document.getElementById('image-displayed').src = nodo.querySelector('img').src;
+        let image = document.getElementById('image-displayed');
+        image.src = nodo.querySelector('img').src;
+        image.dataset.original = nodo.querySelector('img').src;
+        document.getElementById('filter_picker').selectedIndex = 0;
     }
 }
 

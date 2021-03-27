@@ -27,7 +27,7 @@ app.on('ready', () => {
         show: false,
         webPreferences: {
             nodeIntegration: true
-        }
+        },
     });
 
     win.once('ready-to-show', () => {
@@ -50,8 +50,6 @@ ipcMain.on('open-directory', (event, arg) => {
         buttonLabel: 'Abrir ubicación',
         properties: ['openDirectory']
     }).then((dir) => {
-        console.log('el dir seleccionado', dir);
-
         if (dir.canceled) return;
 
         let directoryChoosed = dir.filePaths[0];
@@ -69,8 +67,30 @@ ipcMain.on('open-directory', (event, arg) => {
                         size: fileSize(statsFile.size, { round: 0 })
                     }
                 });
-            
+
             event.sender.send('load-images', images);
         });
+    });
+});
+
+ipcMain.on('save-save-dialog', (event, ext) => {
+    dialog.showSaveDialog(win, {
+        title: 'Guardar imagen modificada',
+        buttonLabel: 'Guardar imagen',
+        filters: [{
+            name: 'Images', extensions: [ext.substr(1)]
+        }]
+    }).then((file) => {
+        if (file.canceled) return;
+
+        event.sender.send('save-image', file.filePath);
+    });
+});
+
+ipcMain.on('show-dialog', (event, info) => {
+    dialog.showMessageBox(win, {
+        type: info.type,
+        title: info.title,
+        message: info.msg
     });
 });
