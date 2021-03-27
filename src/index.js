@@ -6,6 +6,7 @@ import fs from 'fs';
 import isImage from 'is-image';
 import path from 'path';
 import fileSize from 'filesize';
+import handleErrors from './handle-errors';
 
 let win;
 
@@ -29,6 +30,8 @@ app.on('ready', () => {
             nodeIntegration: true
         },
     });
+
+    handleErrors(win);
 
     win.once('ready-to-show', () => {
         win.show()
