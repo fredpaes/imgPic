@@ -1,14 +1,14 @@
 import url from 'url';
 import * as path from 'path';
 import applyFilter from './filters';
-import { sendIpc, setIpc } from './ipcRendererEvents';
+import { openDirectory, setIpc } from './ipcRendererEvents';
 
 window.addEventListener('load', () => {
     setIpc();
     addImagesEvents();
     searchImagesEvent();
     selectEvent();
-    openDirectory();
+    buttonEvent('open-directory', openDirectory);
 });
 
 function addImagesEvents() {
@@ -72,10 +72,8 @@ function selectEvent() {
     })
 }
 
-function openDirectory() {
-    const openDirectory = document.getElementById('open-directory');
+function buttonEvent(id, func) {
+    const buttonById = document.getElementById(id);
 
-    openDirectory.addEventListener('click', () => {
-        sendIpc();
-    });
+    buttonById.addEventListener('click', func);
 }
