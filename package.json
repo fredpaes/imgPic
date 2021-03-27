@@ -4,12 +4,16 @@
   "description": "Aplicativo de electron para visualizacion de imagenes",
   "main": "index.js",
   "scripts": {
-    "dev": "electron ./index.js",
+    "dev": "cross-env NODE_ENV=dev electron ./src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Fred Paucar",
   "license": "ISC",
   "dependencies": {
-    "electron": "^12.0.2"
+    "cross-env": "^7.0.3",
+    "electron-compile": "^6.4.4"
+  },
+  "devDependencies": {
+    "electron-prebuilt-compile": "^8.2.0"
   }
 }
