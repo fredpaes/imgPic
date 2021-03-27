@@ -18,7 +18,10 @@ app.on('ready', () => {
         title: 'Hola mundo',
         center: true,
         maximizable: false,
-        show: false
+        show: false,
+        webPreferences: {
+            nodeIntegration: true
+        }
     });
 
     win.once('ready-to-show', () => {
