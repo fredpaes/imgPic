@@ -3,7 +3,7 @@
 import { app, BrowserWindow } from 'electron';
 import devtools from './devtools';
 
-if (process.env.NODE_ENV == 'dev') {
+if (process.env.NODE_ENV == 'development') {
     devtools();
 }
 
@@ -30,6 +30,7 @@ app.on('ready', () => {
         app.quit();
     });
 
-    win.loadURL(`file://${__dirname}/renderer/index.html`);
     // win.loadURL('https://devdocs.io/');
+    win.loadURL(`file://${__dirname}/renderer/index.html`);
+    // win.toggleDevTools();
 });
