@@ -1,9 +1,14 @@
 import url from 'url';
 import * as path from 'path';
+import applyFilter from './filters';
+import { sendIpc, setIpc } from './ipcRendererEvents';
 
 window.addEventListener('load', () => {
+    setIpc();
     addImagesEvents();
     searchImagesEvent();
+    selectEvent();
+    openDirectory();
 });
 
 function addImagesEvents() {
@@ -57,4 +62,20 @@ function searchImagesEvent() {
 function selectFirstImage() {
     const image = document.querySelector('li.list-group-item:not(.hidden');
     changeImage(image);
+}
+
+function selectEvent() {
+    const select = document.getElementById('filter_picker');
+
+    select.addEventListener('change', function () {
+        applyFilter(this.value, document.getElementById('image-displayed'));
+    })
+}
+
+function openDirectory() {
+    const openDirectory = document.getElementById('open-directory');
+
+    openDirectory.addEventListener('click', () => {
+        sendIpc();
+    });
 }

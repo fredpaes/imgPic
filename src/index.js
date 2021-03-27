@@ -1,6 +1,6 @@
 'use strict';
 
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, ipcMain } from 'electron';
 import devtools from './devtools';
 
 if (process.env.NODE_ENV == 'development') {
@@ -13,7 +13,7 @@ app.on('before-quit', () => {
 
 app.on('ready', () => {
     let win = new BrowserWindow({
-        width: 800,
+        width: 840,
         height: 600,
         title: 'Hola mundo',
         center: true,
@@ -36,4 +36,9 @@ app.on('ready', () => {
     // win.loadURL('https://devdocs.io/');
     win.loadURL(`file://${__dirname}/renderer/index.html`);
     // win.toggleDevTools();
+});
+
+ipcMain.on('ping', (event, arg) => {
+    console.log(`se recibió ping - ${arg}`);
+    event.sender.send('pong', new Date());
 });
