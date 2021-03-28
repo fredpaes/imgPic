@@ -66,10 +66,15 @@ function searchImagesEvent() {
     });
 }
 
+function print() {
+    window.print();
+}
+
 module.exports = {
     addImagesEvent,
     changeImage,
     selectFirstImage,
     selectEvent,
-    searchImagesEvent
+    searchImagesEvent,
+    print
 }

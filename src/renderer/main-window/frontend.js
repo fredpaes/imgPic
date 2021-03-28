@@ -1,5 +1,5 @@
-import { openDirectory, setIpc, saveFile, openPreferences } from './main-window/ipcRendererEvents';
-import { addImagesEvent, searchImagesEvent, selectEvent } from './main-window/images-ui';
+import { openDirectory, setIpc, saveFile, openPreferences, uploadImage } from './main-window/ipcRendererEvents';
+import { addImagesEvent, searchImagesEvent, selectEvent, print } from './main-window/images-ui';
 
 window.addEventListener('load', () => {
     setIpc();
@@ -9,6 +9,8 @@ window.addEventListener('load', () => {
     buttonEvent('open-directory', openDirectory);
     buttonEvent('open-preferences', openPreferences);
     buttonEvent('save-button', saveFile);
+    buttonEvent('print-button', print);
+    buttonEvent('upload-button', uploadImage);
 });
 
 function buttonEvent(id, func) {

@@ -30,3 +30,13 @@ full-height {
 .hidden {
     display: none;
 }
+
+@media print {
+    header, footer, div.sidebar {
+        display: none;
+    }
+
+    .pane {
+        border: none;
+    }
+}

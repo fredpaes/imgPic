@@ -11,6 +11,7 @@
   "author": "Fred Paucar",
   "license": "ISC",
   "dependencies": {
+    "cloudup-client": "^0.3.2",
     "cross-env": "^7.0.3",
     "crypto-js": "^4.0.0",
     "electron-compile": "^6.4.4",

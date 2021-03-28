@@ -4,6 +4,10 @@ import path from 'path';
 import { saveImage } from './filters';
 import os from 'os';
 import settings from 'electron-settings';
+import clientCloudUp from 'cloudup-client';
+import crypto from 'crypto-js';
+
+const token = 'SECRET_TOKEN';
 
 async function setIpc() {
     if (settings.has('directory')) {
@@ -21,6 +25,8 @@ async function setIpc() {
 
     ipcRenderer.on('save-image', (event, file) => saveImage(file, (err) => {
         if (err) return showDialog('error', 'ImageApp', err.message);
+
+        document.getElementById('image-displayed').dataset.filtered = file;
         return showDialog('info', 'ImageApp', 'La imagen fue guardada');
     }));
 }
@@ -89,9 +95,40 @@ function openPreferences() {
     preferencesWindow.loadURL(`file://${path.join(__dirname, '..')}/preferences.html`);
 }
 
+async function uploadImage() {
+    let imageNodo = document.getElementById('image-displayed').src;
+    let image = imageNodo.dataset.filtered ? imageNodo.dataset.filtered : imageNodo.src;
+    image = image.replace('file://', '');
+    let fileName = path.basename(image);
+
+    if (settings.has('cloudup.user') && settings.has('cloudup.password')) {
+        let password = await settings.get('cloudup.password');
+        let user = await settings.get('cloudup.user');
+        let decrypt = crypto.AES.decrypt(password, token);
+        let decrypted = decrypt.toString(crypto.enc.Utf8);
+
+        const client = clientCloudUp({
+            user,
+            password: decrypted
+        });
+
+        const stream = client.stream({ title: `ImgPics - ${fileName}` });
+        stream.file(image).save((err) => {
+            if (err) {
+                showDialog('error', 'ImgPics', 'Verifique su conexión y/o credenciales de CloudUp');
+            } else {
+                showDialog('info', 'ImgPics', `Imagen cargada con éxito - ${stream.url}`);
+            }
+        });
+    } else {
+        showDialog('error', 'ImgPics', 'Por favor complete las preferencias');
+    }
+}
+
 module.exports = {
     setIpc,
     openDirectory,
     saveFile,
-    openPreferences
+    openPreferences,
+    uploadImage
 };
