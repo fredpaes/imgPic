@@ -1,6 +1,6 @@
 'use strict';
 
-import { app, BrowserWindow, Tray } from 'electron';
+import { app, BrowserWindow, Tray, globalShortcut } from 'electron';
 import devtools from './devtools';
 import handleErrors from './handle-errors';
 import setMainPc from './ipcMainEvents';
@@ -15,14 +15,14 @@ if (process.env.NODE_ENV == 'development') {
 }
 
 app.on('before-quit', () => {
-    console.log('Saliendo...');
+    globalShortcut.unregisterAll();
 });
 
 app.on('ready', () => {
     global.win = new BrowserWindow({
         width: 840,
         height: 600,
-        title: 'Hola mundo',
+        title: 'ImgPics',
         center: true,
         maximizable: false,
         show: false,
@@ -30,6 +30,11 @@ app.on('ready', () => {
             nodeIntegration: true
         },
     });
+
+    globalShortcut.register('CommandOrControl+Alt+p', () => {
+        global.win.show();
+        global.win.focus();
+    })
 
     setMainPc(global.win);
     handleErrors(global.win);

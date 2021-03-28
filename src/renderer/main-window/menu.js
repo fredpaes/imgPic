@@ -9,14 +9,17 @@ function createMenu() {
             submenu: [
                 {
                     label: 'Abrir ubicación',
+                    accelerator: 'CmdOrCtrl+O',
                     click() { openDirectory() }
                 },
                 {
                     label: 'Guardar imagen',
+                    accelerator: 'CmdOrCtrl+G',
                     click() { saveFile() }
                 },
                 {
                     label: 'Preferencias',
+                    accelerator: 'CmdOrCtrl+,',
                     click() { openPreferences() }
                 },
                 {
@@ -30,14 +33,17 @@ function createMenu() {
             submenu: [
                 {
                     label: 'Imprimir',
+                    accelerator: 'CmdOrCtrl+P',
                     click() { print() }
                 },
                 {
                     label: 'Subir a CloudUp',
+                    accelerator: 'CmdOrCtrl+U',
                     click() { uploadImage() }
                 },
                 {
                     label: 'Pegar imagen',
+                    accelerator: 'CmdOrCtrl+V',
                     click() { pasteImage() }
                 }
             ]
