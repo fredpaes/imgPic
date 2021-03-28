@@ -1,4 +1,4 @@
-import { ipcRenderer, remote } from 'electron';
+import { ipcRenderer, remote, clipboard } from 'electron';
 import { addImagesEvent, selectFirstImage } from './images-ui';
 import path from 'path';
 import { saveImage } from './filters';
@@ -117,11 +117,24 @@ async function uploadImage() {
             if (err) {
                 showDialog('error', 'ImgPics', 'Verifique su conexión y/o credenciales de CloudUp');
             } else {
-                showDialog('info', 'ImgPics', `Imagen cargada con éxito - ${stream.url}`);
+                clipboard.writeText(stream.url);
+                showDialog('info', 'ImgPics', `Imagen cargada con éxito - ${stream.url}, el enlace se copió al portapapeles`);
             }
         });
     } else {
         showDialog('error', 'ImgPics', 'Por favor complete las preferencias');
+    }
+}
+
+function pasteImage() {
+    const image = clipboard.readImage();
+    const data = image.toDataURL();
+    if (data.indexOf('data:image/png;base64') !== -1 && !image.isEmpty()) {
+        let mainImage = document.getElementById('image-displayed');
+        mainImage.src = data;
+        mainImage.dataset.original = data;
+    } else {
+        showDialog('error', 'ImgPics', 'No hay una imagen válida en portapapeles');
     }
 }
 
@@ -130,5 +143,6 @@ module.exports = {
     openDirectory,
     saveFile,
     openPreferences,
-    uploadImage
+    uploadImage,
+    pasteImage
 };

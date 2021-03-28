@@ -2,7 +2,7 @@ import fs from 'fs.extra';
 
 function applyFilter(filter, currentImage) {
     let imgObj = new Image();
-    imgObj.src = currentImage.src;
+    imgObj.src = currentImage.dataset.original;
 
     filterous.importImage(imgObj, {})
         .applyInstaFilter(filter)
