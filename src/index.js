@@ -34,6 +34,7 @@ app.on('ready', () => {
         webPreferences: {
             nodeIntegration: true
         },
+        icon: path.join(__dirname, 'assets', 'icons', 'main-icon.png')
     });
 
     globalShortcut.register('CommandOrControl+Alt+p', () => {

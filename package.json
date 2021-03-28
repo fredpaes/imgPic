@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "cross-env NODE_ENV=development electron ./src/index.js",
     "lint": "standard",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "ava tests/test-*.js"
   },
   "author": "Fred Paucar",
   "license": "ISC",
@@ -22,8 +22,10 @@
     "is-image": "^3.0.0"
   },
   "devDependencies": {
+    "ava": "^3.15.0",
     "devtron": "^1.4.0",
     "electron-prebuilt-compile": "^8.2.0",
+    "spectron": "^14.0.0",
     "standard": "^16.0.3"
   }
 }
