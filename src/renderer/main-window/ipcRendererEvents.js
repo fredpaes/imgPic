@@ -98,7 +98,7 @@ function openPreferences() {
 async function uploadImage() {
     let imageNodo = document.getElementById('image-displayed').src;
     let image = imageNodo.dataset.filtered ? imageNodo.dataset.filtered : imageNodo.src;
-    image = image.replace('file://', '');
+    image = image.replace('imp://', '');
     let fileName = path.basename(image);
 
     if (settings.has('cloudup.user') && settings.has('cloudup.password')) {

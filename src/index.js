@@ -1,6 +1,6 @@
 'use strict';
 
-import { app, BrowserWindow, Tray, globalShortcut } from 'electron';
+import { app, BrowserWindow, Tray, globalShortcut, protocol } from 'electron';
 import devtools from './devtools';
 import handleErrors from './handle-errors';
 import setMainPc from './ipcMainEvents';
@@ -19,6 +19,11 @@ app.on('before-quit', () => {
 });
 
 app.on('ready', () => {
+    protocol.registerFileProtocol('imp', (request, callback) => {
+        const url = request.url.substr(6);
+        callback({ path: path.normalize(url) })
+    })
+
     global.win = new BrowserWindow({
         width: 840,
         height: 600,

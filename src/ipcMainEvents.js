@@ -53,7 +53,7 @@ function loadImages(event, dir) {
                 let statsFile = fs.statSync(pathFile);
                 return {
                     name: img,
-                    src: `file://${pathFile}`,
+                    src: `imp://${pathFile}`,
                     size: fileSize(statsFile.size, { round: 0 })
                 }
             });
