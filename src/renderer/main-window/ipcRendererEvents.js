@@ -102,6 +102,7 @@ async function uploadImage() {
     let fileName = path.basename(image);
 
     if (settings.has('cloudup.user') && settings.has('cloudup.password')) {
+        document.getElementById('overlay').classList.toggle('hidden');
         let password = await settings.get('cloudup.password');
         let user = await settings.get('cloudup.user');
         let decrypt = crypto.AES.decrypt(password, token);
@@ -114,6 +115,7 @@ async function uploadImage() {
 
         const stream = client.stream({ title: `ImgPics - ${fileName}` });
         stream.file(image).save((err) => {
+            document.getElementById('overlay').classList.toggle('hidden');
             if (err) {
                 showDialog('error', 'ImgPics', 'Verifique su conexión y/o credenciales de CloudUp');
             } else {
