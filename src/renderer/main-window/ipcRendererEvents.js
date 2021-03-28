@@ -1,4 +1,4 @@
-import { ipcRenderer, remote, clipboard } from 'electron';
+import { ipcRenderer, remote, clipboard, shell } from 'electron';
 import { addImagesEvent, selectFirstImage } from './images-ui';
 import path from 'path';
 import { saveImage } from './filters';
@@ -120,7 +120,14 @@ async function uploadImage() {
                 showDialog('error', 'ImgPics', 'Verifique su conexión y/o credenciales de CloudUp');
             } else {
                 clipboard.writeText(stream.url);
-                showDialog('info', 'ImgPics', `Imagen cargada con éxito - ${stream.url}, el enlace se copió al portapapeles`);
+                const notify = new Notification('ImgPics', {
+                    body: `Imagen cargada con éxito - ${stream.url}, el enlace se copió al portapapeles` +
+                        'De click para abrir la URL',
+                    silent: false,
+                });
+                notify.onclick = () => {
+                    shell.openExternal(stream.url);
+                };
             }
         });
     } else {
