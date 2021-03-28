@@ -1,5 +1,6 @@
 import { openDirectory, setIpc, saveFile, openPreferences, uploadImage, pasteImage } from './main-window/ipcRendererEvents';
 import { addImagesEvent, searchImagesEvent, selectEvent, print } from './main-window/images-ui';
+import createMenu from './main-window/menu';
 
 window.addEventListener('load', () => {
     setIpc();
