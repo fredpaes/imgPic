@@ -1,5 +1,5 @@
 {
-  "name": "platzipics",
+  "name": "imgpics",
   "version": "1.0.0",
   "description": "Aplicativo de electron para visualizacion de imagenes",
   "main": "index.js",
